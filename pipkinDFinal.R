@@ -1,5 +1,5 @@
 library(tidyverse)
-HilmanDataCSV = asdf
+HilmanDataCSV = read.csv("HilmanData.csv")
 HD<- as.data.frame(HilmanDataCSV)
 
 #Cleaning the Data
@@ -52,4 +52,14 @@ HD$FoxWhole<-factor(HD$FoxWhole, levels=c("Strongly agree", "Somewhat agree","So
       }
     }
     #Converting To Factor
-HD$WaPoRate1<-factor(HD$WaPoRate1, levels=c("TRUE", "Mostly True", "Mostly False", "FALSE"))
+HD$WaPoRate1<-factor(HD$WaPoRate1, levels=c("True", "Mostly True", "Mostly False", "False"))
+HD$WaPoRate2<-factor(HD$WaPoRate2, levels=c("True", "Mostly True", "Mostly False", "False"))
+HD$FoxRate1<-factor(HD$FoxRate1, levels=c("True", "Mostly True", "Mostly False", "False"))
+HD$FoxRate1<-factor(HD$FoxRate2, levels=c("True", "Mostly True", "Mostly False", "False"))
+
+
+
+
+
+
+
