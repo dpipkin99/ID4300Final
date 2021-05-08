@@ -1,5 +1,5 @@
 ---
-title: "finalProjectPipkin"
+title: "Final Project"
 author: "Daniel Pipkin"
 date: "5/6/2021"
 output: word_document
@@ -120,7 +120,8 @@ Other variables used:
 
 *   indivMean: Numeric, the mean of meanPolitical, meanSocial, and meanEconomic per respondent. Used to generate an overall political bias.  
 
-*  HDCon: Dataset filtered with indivMean values greater than 3.5.  
+*  HDCon: Dataset filtered with indivMean values greater than 3.5.
+
 *  HDLib: Dataset filtered with indivMean values less than 2.5.  
 
 The following section of variables are based off of the following 4 questions:  
@@ -140,30 +141,41 @@ Fox News:
 The variables that correspond with the questions are as folllows:
 
 *  WaPoRate[1/2]: Factor, the respondent's rating of how true they believe the headline to be.
-*  FoxRate[1/2]: Factor, the respondent's rating of how true they believe the headline to be.
   
+*  FoxRate[1/2]: Factor, the respondent's rating of how true they believe the headline to be.
 
+## Analysis
 
-```{r, include=FALSE}
+The question that is to be examined in this data set is:
+Does overall bias play a factor in whether one believes a news outlet is credible or not.
 
-#Less than .05. Reject the Null that the mean is less than 2. 
-WaPoQ1 <- t.test(as.numeric(HDCon$WaPoRate1), mu = 2, alternative = "greater")
-#Greater than .05 accept the null that the mean is less than 2.
-FoxQ1 <- t.test(as.numeric(HDCon$FoxRate1), mu = 2, alternative = "greater")
-#P value .1121
-WaPoQ2 <- t.test(as.numeric(HDCon$WaPoRate2), mu = 2, alternative = "greater")
-# Reject the null since 
-FoxQ2 <- t.test(as.numeric(HDCon$FoxRate2), mu = 2, alternative = "greater")
+To achieve this, a Chi-Squared Hypothesis Test will be used.
 
-
-```
-
-## Including Plots
-
-You can also embed plots, for example:
+The test will be run twice. Once testing the independence of individual bias with the Washington Post, and once with Fox News.
 
 ```{r, echo = FALSE}
 
-```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+chisq.test(as.numeric(HD$indivMean), as.numeric(HD$WaPoCredible))
+"As shown, the p-value is less than 0.05, thus the null hypothesis that one's bias plays a factor in determining whether or not the Washington Post cannot be rejected."
+chisq.test(as.numeric(HD$indivMean), as.numeric(HD$FoxCredible))
+print("As shown, the p-value is above 0.05, thus the null hypothesis that one's bias plays a factor in determining whether or not Fox News is a credible source cannot be rejected")
+
+```  
+## Visualizations  
+```{r, echo = FALSE}
+HDPlot + geom_bar(aes(WaPoCredible), color="dodgerblue3", fill="dodgerblue3") + labs(x="Is the Washington Post Credible") + ylim(c(0,50)) +theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+panel.background = element_blank(), axis.line = element_line(colour = "black"))
+  
+HDPlot + geom_bar(aes(FoxCredible), color="dodgerblue3", fill="dodgerblue3") + labs(x="Is Fox News Credible")+ylim(c(0,50)) +theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+panel.background = element_blank(), axis.line = element_line(colour = "black"))
+  
+HDPlot + geom_bar(aes(indivMean), color="dodgerblue3", fill="dodgerblue3") + labs(x="Spread of Bias (5 being very conservative, 1 being very liberal)") +theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+```   
+  
+## Results
+
+After examining the data, it can be concluded that bias plays a role in determining whether some news outlets are credible or not. When comparing the first and second graphs, there is a noticeable difference in the "somewhat disagree" column. 
+As the third visualization shows, there are more respondents who are conservative than liberal. With this information, it makes logical sense, that those who have a conservative bias are going to be biased towards fox news, and those who have a liberal bias are going to be biased against fox news. 
